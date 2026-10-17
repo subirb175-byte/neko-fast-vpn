@@ -45,12 +45,11 @@ jobs:
 
       - name: Build APK
         run: gradle assemble --stacktrace
-        
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: neko-fast-apk
-          path: app/build/outputs/apk/**/*.apk
+          path: "**/build/outputs/apk/**/*.apk"
           if-no-files-found: error
           
