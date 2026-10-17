@@ -44,7 +44,8 @@ jobs:
           gradle-version: '8.7'
 
       - name: Build APK
-        run: gradle :app:assemble --stacktrace
+        run: app:gradle assemble --stacktrace
+        
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
