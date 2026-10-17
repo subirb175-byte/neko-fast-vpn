@@ -2,76 +2,38 @@ package com.nekofast.vpn;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
-    private WebView webView;
-
-    private static final String WEBSITE_URL =
-        "https://subirb175-byte.github.io/neko-fast-vpn/";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setGravity(Gravity.CENTER);
+        layout.setPadding(50, 50, 50, 50);
 
-        getWindow().setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
+        TextView title = new TextView(this);
+        title.setText("Neko Fast VPN");
+        title.setTextSize(26);
+        title.setGravity(Gravity.CENTER);
+        title.setPadding(0, 0, 0, 50);
 
-        webView = new WebView(this);
+        Button connectBtn = new Button(this);
+        connectBtn.setText("Connect VPN");
+        connectBtn.setTextSize(18);
+        connectBtn.setOnClickListener(v -> {
+            Toast.makeText(this, "Connecting to VPN...", Toast.LENGTH_SHORT).show();
+        });
 
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
+        layout.addView(title);
+        layout.addView(connectBtn);
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
-
-        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
-        setContentView(webView);
-
-        if (savedInstanceState == null) {
-            webView.loadUrl(WEBSITE_URL);
-        } else {
-            webView.restoreState(savedInstanceState);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        webView.saveState(outState);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (webView != null) {
-            webView.destroy();
-            webView = null;
-        }
-
-        super.onDestroy();
+        setContentView(layout);
     }
 }
