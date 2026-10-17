@@ -44,7 +44,7 @@ jobs:
           gradle-version: '8.7'
 
       - name: Build APK
-        run: app:gradle assemble --stacktrace
+        run: gradle assemble --stacktrace
         
 
       - name: Upload APK
